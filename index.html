@@ -396,4 +396,402 @@
             ? 'rotate(180deg)' 
             : 'rotate(0)';
     });
+});<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUO Global</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        :root {
+            --primary: #46cde5;
+            --secondary: #10B981;
+            --accent: #EC4899;
+            --dark: #2d416b;
+            --light: #e9ebed;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(125deg, #4F46E510 0%, #10B98110 50%, #EC489910 100%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+        }
+
+        header {
+            text-align: center;
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .company-name {
+            font-size: 4.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUp 0.8s ease forwards;
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .preamble {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.3rem;
+            color: var(--dark);
+            padding: 2rem;
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 0.8s ease 0.4s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.8);
+            margin: 1.5rem 0;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
+            transform: translateX(-20px);
+            opacity: 0;
+            animation: slideIn 0.6s ease forwards;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.6s; }
+        .section:nth-child(2) { animation-delay: 0.8s; }
+        .section:nth-child(3) { animation-delay: 1s; }
+
+        @keyframes slideIn {
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
+
+        .section-header {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-header:hover {
+            background: var(--secondary);
+        }
+
+        .section-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        .section-header:hover::before {
+            transform: translateX(100%);
+        }
+
+       /* Replace the current section-content styles with these */
+.section-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transform: translateY(-20px);
+    padding: 0 1.5rem;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.section-content.active {
+    max-height: none; /* Changed from 500px */
+    opacity: 1;
+    transform: translateY(0);
+    padding: 1.5rem;
+}
+
+        .section-content ul {
+            list-style-type: none;
+        }
+
+        .section-content li {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .section-content.active li {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .section-content.active li:nth-child(1) { transition-delay: 0.1s; }
+        .section-content.active li:nth-child(2) { transition-delay: 0.2s; }
+        .section-content.active li:nth-child(3) { transition-delay: 0.3s; }
+        .section-content.active li:nth-child(4) { transition-delay: 0.4s; }
+
+        .section-content li::before {
+            content: "→";
+            color: var(--secondary);
+            position: absolute;
+            left: 0;
+            transform: translateX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .section-content li:hover::before {
+            transform: translateX(5px);
+        }
+
+        .qr-section {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            opacity: 0;
+            animation: fadeIn 0.8s ease 1.2s forwards;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .qr-code:hover {
+            transform: scale(1.05);
+        }
+
+        .fa-chevron-down {
+            transition: transform 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            .company-name { font-size: 2.5rem; }
+            .preamble { 
+                font-size: 1rem;
+                padding: 1rem;
+            }
+            .locations {
+    font-size: 1.2rem;
+    color: var(--primary);
+    opacity: 0.8;
+    letter-spacing: 2px;
+    margin-top: 0.5rem;
+    transform: translateY(20px);
+    opacity: 0;
+    animation: slideUp 0.8s ease 0.2s forwards;
+}
+
+@media (max-width: 768px) {
+    .locations {
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+    }
+}
+        }
+
+        /* Floating shapes background animation */
+        .shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            animation: float 20s infinite linear;
+            opacity: 0.1;
+        }
+
+        .shape:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-duration: 15s;
+        }
+
+        .shape:nth-child(2) {
+            top: 60%;
+            left: 70%;
+            width: 100px;
+            height: 100px;
+            animation-duration: 25s;
+        }
+
+        .shape:nth-child(3) {
+            top: 40%;
+            left: 40%;
+            width: 75px;
+            height: 75px;
+            animation-duration: 20s;
+        }
+
+        @keyframes float {
+            from {
+                transform: rotate(0deg) translate(50px) rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg) translate(50px) rotate(-360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="gradient-bg"></div>
+    <div class="shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    
+    <header>
+        <div class="company-name">SUO Global</div>
+        <div class="locations">Lisbon | Porto | Noida | Zurich</div>
+        <div class="preamble">
+            Empowering businesses to thrive globally through strategic partnerships,<br>
+            innovative solutions, and comprehensive coverage of support services.<br>
+            Here's a short runabout of some of the assignments SUO Global & its promoters have undertaken in the recent past:
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="section">
+            <div class="section-header">
+                <span>FDI & International Networking Events</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="section-content">
+                <ul>
+                    <li>Hosted 50+ high-impact networking events across major global markets</li>
+                    <li>Facilitated FDI deals worth over $100M in emerging economies</li>
+                    <li>Connected 1000+ businesses with international partners</li>
+                    <li>Organized sector-specific trade missions in key markets</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <span>Business Setup & Expansion</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="section-content">
+                <ul>
+                    <li>Comprehensive market entry strategy development</li>
+                    <li>Local regulatory compliance and documentation support</li>
+                    <li>Strategic partnership identification and facilitation</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <span>Policy Framework Assignments</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="section-content">
+                <ul>
+                    <li>Policy analysis and recommendation reports for governments</li>
+                    <li>Cross-border trade regulation advisory services</li>
+                    <li>Economic impact assessment studies</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="qr-section">
+            <img src="/api/placeholder/200/200" alt="Dynamic QR Code" class="qr-code">
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.section-header').forEach(header => {
+    header.addEventListener('click', () => {
+        const content = header.nextElementSibling;
+        const icon = header.querySelector('i');
+        
+        // Close all other sections first (optional - remove if you want multiple sections open)
+        document.querySelectorAll('.section-content').forEach(item => {
+            if (item !== content && item.classList.contains('active')) {
+                item.classList.remove('active');
+                item.previousElementSibling.querySelector('i').style.transform = 'rotate(0)';
+            }
+        });
+        
+        // Toggle current section
+        content.classList.toggle('active');
+        
+        // Rotate icon
+        icon.style.transform = content.classList.contains('active') 
+            ? 'rotate(180deg)' 
+            : 'rotate(0)';
+    });
 });
