@@ -15,11 +15,11 @@
         }
 
         :root {
-            --primary: #4F46E5;
+            --primary: #46cde5;
             --secondary: #10B981;
             --accent: #EC4899;
-            --dark: #1E293B;
-            --light: #F8FAFC;
+            --dark: #2d416b;
+            --light: #e9ebed;
         }
 
         body {
@@ -149,18 +149,23 @@
             transform: translateX(100%);
         }
 
-        .section-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 0 1.5rem;
-            background: rgba(255, 255, 255, 0.9);
-        }
+       /* Replace the current section-content styles with these */
+.section-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transform: translateY(-20px);
+    padding: 0 1.5rem;
+    background: rgba(255, 255, 255, 0.9);
+}
 
-        .section-content.active {
-            max-height: 500px;
-            padding: 1.5rem;
-        }
+.section-content.active {
+    max-height: none; /* Changed from 500px */
+    opacity: 1;
+    transform: translateY(0);
+    padding: 1.5rem;
+}
 
         .section-content ul {
             list-style-type: none;
@@ -230,6 +235,23 @@
                 font-size: 1rem;
                 padding: 1rem;
             }
+            .locations {
+    font-size: 1.2rem;
+    color: var(--primary);
+    opacity: 0.8;
+    letter-spacing: 2px;
+    margin-top: 0.5rem;
+    transform: translateY(20px);
+    opacity: 0;
+    animation: slideUp 0.8s ease 0.2s forwards;
+}
+
+@media (max-width: 768px) {
+    .locations {
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+    }
+}
         }
 
         /* Floating shapes background animation */
@@ -295,10 +317,11 @@
     
     <header>
         <div class="company-name">SUO Global</div>
+        <div class="locations">Lisbon | Porto | Noida | Zurich</div>
         <div class="preamble">
             Empowering businesses to thrive globally through strategic partnerships,<br>
-            innovative solutions, and comprehensive support services.<br>
-            Your trusted partner in international business expansion.
+            innovative solutions, and comprehensive coverage of support services.<br>
+            Here's a short runabout of some of the assignments SUO Global & its promoters have undertaken in the recent past:
         </div>
     </header>
 
@@ -353,19 +376,24 @@
 
     <script>
         document.querySelectorAll('.section-header').forEach(header => {
-            header.addEventListener('click', () => {
-                const content = header.nextElementSibling;
-                const icon = header.querySelector('i');
-                
-                // Toggle active class
-                content.classList.toggle('active');
-                
-                // Rotate icon
-                icon.style.transform = content.classList.contains('active') 
-                    ? 'rotate(180deg)' 
-                    : 'rotate(0)';
-            });
+    header.addEventListener('click', () => {
+        const content = header.nextElementSibling;
+        const icon = header.querySelector('i');
+        
+        // Close all other sections first (optional - remove if you want multiple sections open)
+        document.querySelectorAll('.section-content').forEach(item => {
+            if (item !== content && item.classList.contains('active')) {
+                item.classList.remove('active');
+                item.previousElementSibling.querySelector('i').style.transform = 'rotate(0)';
+            }
         });
-    </script>
-</body>
-</html>
+        
+        // Toggle current section
+        content.classList.toggle('active');
+        
+        // Rotate icon
+        icon.style.transform = content.classList.contains('active') 
+            ? 'rotate(180deg)' 
+            : 'rotate(0)';
+    });
+});
