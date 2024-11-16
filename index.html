@@ -4,6 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SUO Global</title>
+    .locations {
+    font-size: 1.2rem;
+    color: var(--primary);
+    opacity: 0.8;
+    letter-spacing: 2px;
+    margin-top: 0.5rem;
+    transform: translateY(20px);
+    opacity: 0;
+    animation: slideUp 0.8s ease 0.2s forwards;
+}
+
+@media (max-width: 768px) {
+    .locations {
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+    }
+}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
@@ -295,6 +312,7 @@
     
     <header>
         <div class="company-name">SUO Global</div>
+        <div class="locations">Lisbon | Porto | Noida | Zurich</div>
         <div class="preamble">
             Empowering businesses to thrive globally through strategic partnerships,<br>
             innovative solutions, and comprehensive support services.<br>
