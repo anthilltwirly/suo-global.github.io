@@ -1,344 +1,399 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suren Uppal - Business Card</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <title>SUO Global</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Avenir:wght@400;700&display=swap');
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
         }
-        
+
+        :root {
+            --primary: #46cde5;
+            --secondary: #10B981;
+            --accent: #EC4899;
+            --dark: #2d416b;
+            --light: #e9ebed;
+        }
+
         body {
-            font-family: 'Avenir', Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #f0f0f0 0%, #d9d9d9 100%);
-            position: relative;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
             overflow-x: hidden;
         }
-        
-        /* Animated background stripes */
-        body::before {
+
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(125deg, #4F46E510 0%, #10B98110 50%, #EC489910 100%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+        }
+
+        header {
+            text-align: center;
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .company-name {
+            font-size: 4.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUp 0.8s ease forwards;
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .preamble {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.3rem;
+            color: var(--dark);
+            padding: 2rem;
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 0.8s ease 0.4s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.8);
+            margin: 1.5rem 0;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
+            transform: translateX(-20px);
+            opacity: 0;
+            animation: slideIn 0.6s ease forwards;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.6s; }
+        .section:nth-child(2) { animation-delay: 0.8s; }
+        .section:nth-child(3) { animation-delay: 1s; }
+
+        @keyframes slideIn {
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
+
+        .section-header {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-header:hover {
+            background: var(--secondary);
+        }
+
+        .section-header::before {
             content: '';
             position: absolute;
-            width: 300%;
-            height: 300%;
-            background: repeating-linear-gradient(
-                45deg,
-                #b3b3b3 0px,
-                #808080 50px,
-                #b3b3b3 100px,
-                #cccccc 150px,
-                #e6e6e6 200px
-            );
-            animation: stripe-animation 20s linear infinite;
-            z-index: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
         }
-        
-        @keyframes stripe-animation {
-            0% {
-                transform: translate(-50%, -50%) rotate(0deg);
-            }
-            100% {
-                transform: translate(-50%, -50%) rotate(360deg);
-            }
+
+        .section-header:hover::before {
+            transform: translateX(100%);
         }
-        
-        .card {
-            background: #fff;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            padding: 40px;
-            width: 800px;
-            display: flex;
-            gap: 40px;
+
+       /* Replace the current section-content styles with these */
+.section-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transform: translateY(-20px);
+    padding: 0 1.5rem;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.section-content.active {
+    max-height: none; /* Changed from 500px */
+    opacity: 1;
+    transform: translateY(0);
+    padding: 1.5rem;
+}
+
+        .section-content ul {
+            list-style-type: none;
+        }
+
+        .section-content li {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
             position: relative;
-            z-index: 1;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
         }
-        
-        .info {
-            flex: 1;
+
+        .section-content.active li {
+            opacity: 1;
+            transform: translateX(0);
         }
-        
-        .name {
-            font-size: 24px;
-            font-weight: 700;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: #333;
-            margin: 0 0 30px 0;
-            position: relative;
-        }
-        
-        .contact {
-            margin: 20px 0;
-            font-size: 15px;
-            color: #666;
-        }
-        
-        .contact p {
+
+        .section-content.active li:nth-child(1) { transition-delay: 0.1s; }
+        .section-content.active li:nth-child(2) { transition-delay: 0.2s; }
+        .section-content.active li:nth-child(3) { transition-delay: 0.3s; }
+        .section-content.active li:nth-child(4) { transition-delay: 0.4s; }
+
+        .section-content li::before {
+            content: "→";
+            color: var(--secondary);
+            position: absolute;
+            left: 0;
             transform: translateX(0);
             transition: transform 0.3s ease;
         }
-        
-        .contact p:hover {
-            transform: translateX(10px);
-            color: #333;
+
+        .section-content li:hover::before {
+            transform: translateX(5px);
         }
-        
-        .contact i {
-            width: 20px;
-            color: #ff9900;
-            margin-right: 10px;
+
+        .qr-section {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            opacity: 0;
+            animation: fadeIn 0.8s ease 1.2s forwards;
         }
-        
-        .ventures {
-            margin: 30px 0;
-        }
-        
-        .venture {
-            margin: 20px 0;
-            padding: 15px;
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
             border-radius: 10px;
-            background: #f5f5f5;
-            transition: all 0.4s ease;
-            transform: skew(-5deg);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
         }
-        
-        .venture:hover {
-            transform: translateY(-5px) skew(-5deg);
-            background: #e6e6e6;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+
+        .qr-code:hover {
+            transform: scale(1.05);
         }
-        
-        .venture-name {
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 5px;
+
+        .fa-chevron-down {
+            transition: transform 0.3s ease;
         }
-        
-        .venture-desc {
-            font-size: 14px;
-            color: #666;
-            line-height: 1.5;
-        }
-        
-        .addresses {
-            margin: 30px 0;
-            font-size: 14px;
-            color: #666;
-        }
-        
-        .address {
-            margin: 15px 0;
-            padding-left: 25px;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-        
-        .address:hover {
-            color: #333;
-            transform: translateX(10px);
-        }
-        
-        .address i {
-            position: absolute;
-            left: 0;
-            top: 3px;
-            color: #ff9900;
-        }
-        
-        .social {
-            margin-top: 30px;
-            display: flex;
-            gap: 20px;
-        }
-        
-        .social a {
-            color: #333;
-            text-decoration: none;
-            transition: all 0.4s ease;
-            transform-origin: center;
-        }
-        
-        .social a:hover {
-            transform: scale(1.3) rotate(360deg);
-            color: #ff9900;
-            text-shadow: 0 0 10px #ff9900;
-        }
-        
-        #qrcode {
-            width: 180px;
-            height: 180px;
-            padding: 10px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: all 0.4s ease;
-        }
-        
-        #qrcode:hover {
-            transform: scale(1.1);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        
+
         @media (max-width: 768px) {
-            .card {
-                flex-direction: column;
-                width: 100%;
-                padding: 20px;
+            .container { padding: 1rem; }
+            .company-name { font-size: 2.5rem; }
+            .preamble { 
+                font-size: 1rem;
+                padding: 1rem;
             }
-            
-            #qrcode {
-                align-self: center;
-            }
+            .locations {
+    font-size: 1.2rem;
+    color: var(--primary);
+    opacity: 0.8;
+    letter-spacing: 2px;
+    margin-top: 0.5rem;
+    transform: translateY(20px);
+    opacity: 0;
+    animation: slideUp 0.8s ease 0.2s forwards;
+}
+
+@media (max-width: 768px) {
+    .locations {
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+    }
+}
         }
-        
-        /* Add pulse animation to venture cards */
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(255,153,0,0.2);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(255,153,0,0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(255,153,0,0);
-            }
+
+        /* Floating shapes background animation */
+        .shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
         }
-        
-        .venture:hover {
-            animation: pulse 1.5s infinite;
+
+        .shape {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            animation: float 20s infinite linear;
+            opacity: 0.1;
+        }
+
+        .shape:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-duration: 15s;
+        }
+
+        .shape:nth-child(2) {
+            top: 60%;
+            left: 70%;
+            width: 100px;
+            height: 100px;
+            animation-duration: 25s;
+        }
+
+        .shape:nth-child(3) {
+            top: 40%;
+            left: 40%;
+            width: 75px;
+            height: 75px;
+            animation-duration: 20s;
+        }
+
+        @keyframes float {
+            from {
+                transform: rotate(0deg) translate(50px) rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg) translate(50px) rotate(-360deg);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        <div class="info">
-            <h1 class="name">SURENUPPAL</h1>
-            
-            <div class="contact">
-                <p><i class="fas fa-phone"></i>+91-9868700009</p>
-                <p><i class="fas fa-phone"></i>+351-937036477</p>
-                <p><i class="fas fa-envelope"></i>reach@surenuppal.com</p>
+    <div class="gradient-bg"></div>
+    <div class="shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    
+    <header>
+        <div class="company-name">SUO Global</div>
+        <div class="locations">Lisbon | Porto | Noida | Zurich</div>
+        <div class="preamble">
+            Empowering businesses to thrive globally through strategic partnerships,<br>
+            innovative solutions, and comprehensive coverage of support services.<br>
+            Here's a short runabout of some of the assignments SUO Global & its promoters have undertaken in the recent past:
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="section">
+            <div class="section-header">
+                <span>FDI & International Networking Events</span>
+                <i class="fas fa-chevron-down"></i>
             </div>
-            
-            <div class="ventures">
-                <div class="venture">
-                    <div class="venture-name">SUO Law</div>
-                    <div class="venture-desc">Recognised as one of India's foremost policy framework & corporate law offices.</div>
-                </div>
-                
-                <div class="venture">
-                    <div class="venture-name">SUO Global</div>
-                    <div class="venture-desc">Our newest addition to the SUO umbrella, an UPTEC-incubated organisation focussing on SMEs, Startups & cross-border M&As.</div>
-                </div>
-                
-                <div class="venture">
-                    <div class="venture-name">SUO Consulting</div>
-                    <div class="venture-desc">Our brain trust, a vibrant team of lawyers, marketers & business strategists.</div>
-                </div>
-                
-                <div class="venture">
-                    <div class="venture-name">SUO Jobs</div>
-                    <div class="venture-desc">Our first step into the international HR & Manpower domain - a SaaS platform that also served as the MVP for our recent international ventures.</div>
-                </div>
-            </div>
-            
-            <div class="addresses">
-                <div class="address">
-                    <i class="fas fa-building"></i>
-                    <strong>SUO Global:</strong><br>
-                    Rua Dr Marcos da Cruz, 2033 - Perafita, 4455-482 Matosinhos
-                </div>
-                
-                <div class="address">
-                    <i class="fas fa-building"></i>
-                    <strong>SUO Consulting:</strong><br>
-                    Wehntalerstrasse 551, 8046, Zurich
-                </div>
-                
-                <div class="address">
-                    <i class="fas fa-building"></i>
-                    <strong>SUO Law:</strong><br>
-                    D-45, Sector - 10, Noida, UP
-                </div>
-            </div>
-            
-            <div class="social">
-                <a href="https://linkedin.com/company/suoglobal" target="_blank">
-                    <i class="fab fa-linkedin fa-2x" title="SUO Global"></i>
-                </a>
-                <a href="https://linkedin.com/company/suo-law-offices" target="_blank">
-                    <i class="fab fa-linkedin fa-2x" title="SUO Law Offices"></i>
-                </a>
-                <a href="https://linkedin.com/company/suoglobal" target="_blank">
-                    <i class="fab fa-linkedin fa-2x" title="SUO Global"></i>
-                </a>
+            <div class="section-content">
+                <ul>
+                    <li>Hosted 50+ high-impact networking events across major global markets</li>
+                    <li>Facilitated FDI deals worth over $100M in emerging economies</li>
+                    <li>Connected 1000+ businesses with international partners</li>
+                    <li>Organized sector-specific trade missions in key markets</li>
+                </ul>
             </div>
         </div>
-        
-        <div id="qrcode"></div>
+
+        <div class="section">
+            <div class="section-header">
+                <span>Business Setup & Expansion</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="section-content">
+                <ul>
+                    <li>Comprehensive market entry strategy development</li>
+                    <li>Local regulatory compliance and documentation support</li>
+                    <li>Strategic partnership identification and facilitation</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <span>Policy Framework Assignments</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="section-content">
+                <ul>
+                    <li>Policy analysis and recommendation reports for governments</li>
+                    <li>Cross-border trade regulation advisory services</li>
+                    <li>Economic impact assessment studies</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="qr-section">
+            <img src="/api/placeholder/200/200" alt="Dynamic QR Code" class="qr-code">
+        </div>
     </div>
 
     <script>
-        const qrContent = `
-SUREN UPPAL
-
-Contact:
-Phone: +91-9868700009
-Phone: +351-937036477
-Email: reach@surenuppal.com
-
-Ventures:
-1. SUO Law
-   India's foremost policy framework & corporate law offices
-
-2. SUO Global
-   UPTEC-incubated organisation for SMEs, Startups & cross-border M&As
-
-3. SUO Consulting
-   Brain trust of lawyers, marketers & business strategists
-
-4. SUO Jobs
-   International HR & Manpower SaaS platform
-
-Locations:
-SUO Global
-Rua Dr Marcos da Cruz, 2033 - Perafita
-4455-482 Matosinhos
-
-SUO Consulting
-Wehntalerstrasse 551
-8046, Zurich
-
-SUO Law
-D-45, Sector - 10, Noida, UP
-
-LinkedIn:
-SUO Global: linkedin.com/company/suoglobal
-SUO Law: linkedin.com/company/suo-law-offices
-        `.trim();
-
-        new QRCode(document.getElementById("qrcode"), {
-            text: qrContent,
-            width: 180,
-            height: 180,
-            colorDark: "#333333",
-            colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.H
+        document.querySelectorAll('.section-header').forEach(header => {
+    header.addEventListener('click', () => {
+        const content = header.nextElementSibling;
+        const icon = header.querySelector('i');
+        
+        // Close all other sections first (optional - remove if you want multiple sections open)
+        document.querySelectorAll('.section-content').forEach(item => {
+            if (item !== content && item.classList.contains('active')) {
+                item.classList.remove('active');
+                item.previousElementSibling.querySelector('i').style.transform = 'rotate(0)';
+            }
         });
-    </script>
-</body>
-</html>
+        
+        // Toggle current section
+        content.classList.toggle('active');
+        
+        // Rotate icon
+        icon.style.transform = content.classList.contains('active') 
+            ? 'rotate(180deg)' 
+            : 'rotate(0)';
+    });
+});
